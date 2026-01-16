@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(python -m http.server:*)",
+      "Bash(find:*)",
+      "Bash(cmd.exe /c \"node --version\")",
+      "Bash(dir:*)",
+      "Bash(npm run build:*)",
+      "Bash(vercel --version:*)",
+      "Bash(npx vercel --version)",
+      "Bash(git --version:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}
