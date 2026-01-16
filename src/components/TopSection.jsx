@@ -3,20 +3,21 @@ import { ArrowDown } from 'lucide-react';
 import { IDOLS } from '../data';
 
 export const TopSection = ({ onSelectIdol }) => {
-    const [rotation, setRotation] = useState(0);
+    // 最初のカードを中央正面に配置するため、半分の角度だけ回転させて開始
+    const anglePerItem = 360 / IDOLS.length;
+    const [rotation, setRotation] = useState(anglePerItem / 2);
     useEffect(() => {
-        const interval = setInterval(() => setRotation(prev => prev - (360 / IDOLS.length)), 5000);
+        const interval = setInterval(() => setRotation(prev => prev - anglePerItem), 5000);
         return () => clearInterval(interval);
-    }, []);
+    }, [anglePerItem]);
     // レスポンシブ対応: モバイルでは半径とカードサイズを調整
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     // モバイルは半径を大きくしてカード間の重なりを減らす
     const radius = isMobile ? 500 : 650;
     const cardWidth = isMobile ? 280 : 400;
     const cardHeight = isMobile ? 450 : 650;
-    const anglePerItem = 360 / IDOLS.length;
-    // モバイルでも軽い傾斜を維持、デスクトップでは斜めに
-    const carouselRotation = isMobile ? 'rotateZ(-8deg) rotateY(0deg)' : 'rotateZ(-15deg) rotateY(0deg)';
+    // モバイルは正面向き、デスクトップでは斜めに
+    const carouselRotation = isMobile ? 'rotateZ(0deg) rotateY(0deg)' : 'rotateZ(-15deg) rotateY(0deg)';
     const beams = useMemo(() => Array.from({ length: 60 }).map((_, i) => ({
         id: i, angle: Math.random() * 360, delay: Math.random() * 2, duration: Math.random() * 0.4 + 0.3, width: Math.random() * 3 + 2, length: Math.random() * 50 + 50,
         color: Math.random() > 0.6 ? '#ffffff' : Math.random() > 0.4 ? '#ff00ff' : Math.random() > 0.2 ? '#00ffff' : '#ffff00'
