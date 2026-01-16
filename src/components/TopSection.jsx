@@ -10,7 +10,8 @@ export const TopSection = ({ onSelectIdol }) => {
     }, []);
     // レスポンシブ対応: モバイルでは半径とカードサイズを調整
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const radius = isMobile ? 400 : 650;
+    // モバイルは半径を大きくしてカード間の重なりを減らす
+    const radius = isMobile ? 500 : 650;
     const cardWidth = isMobile ? 280 : 400;
     const cardHeight = isMobile ? 450 : 650;
     const anglePerItem = 360 / IDOLS.length;
