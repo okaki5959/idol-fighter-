@@ -53,7 +53,7 @@ export const TopSection = ({ onSelectIdol }) => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,0,255,0.2) 40%, transparent 70%) blur-3xl animate-strobe pointer-events-none mix-blend-screen"></div>
             <div className="absolute inset-0 bg-white/10 animate-flash-hard pointer-events-none z-0"></div>
             <div className="relative w-full h-full flex items-center justify-center z-10" style={{ transformStyle: 'preserve-3d', transform: carouselRotation }}>
-                <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
+                <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation + (anglePerItem / 2)}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
                     {IDOLS.map((idol, i) => {
                         // カード配置角度を計算（常に正面にカードが来るように調整）
                         const cardAngle = i * anglePerItem;
