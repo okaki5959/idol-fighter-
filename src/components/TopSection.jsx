@@ -10,12 +10,12 @@ export const TopSection = ({ onSelectIdol }) => {
     }, []);
     // レスポンシブ対応: モバイルでは半径とカードサイズを調整
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const radius = isMobile ? 350 : 650;
-    const cardWidth = isMobile ? 250 : 400;
-    const cardHeight = isMobile ? 400 : 650;
+    const radius = isMobile ? 400 : 650;
+    const cardWidth = isMobile ? 280 : 400;
+    const cardHeight = isMobile ? 450 : 650;
     const anglePerItem = 360 / IDOLS.length;
-    // モバイルではカルーセルを正面向きに、デスクトップでは斜めに
-    const carouselRotation = isMobile ? 'rotateZ(0deg) rotateY(0deg)' : 'rotateZ(-15deg) rotateY(0deg)';
+    // モバイルでも軽い傾斜を維持、デスクトップでは斜めに
+    const carouselRotation = isMobile ? 'rotateZ(-8deg) rotateY(0deg)' : 'rotateZ(-15deg) rotateY(0deg)';
     const beams = useMemo(() => Array.from({ length: 60 }).map((_, i) => ({
         id: i, angle: Math.random() * 360, delay: Math.random() * 2, duration: Math.random() * 0.4 + 0.3, width: Math.random() * 3 + 2, length: Math.random() * 50 + 50,
         color: Math.random() > 0.6 ? '#ffffff' : Math.random() > 0.4 ? '#ff00ff' : Math.random() > 0.2 ? '#00ffff' : '#ffff00'
