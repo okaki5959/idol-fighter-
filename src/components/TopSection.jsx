@@ -3,9 +3,9 @@ import { ArrowDown } from 'lucide-react';
 import { IDOLS } from '../data';
 
 export const TopSection = ({ onSelectIdol }) => {
-    // 最初のカードを中央正面に配置するため、半分の角度だけ回転させて開始
+    // 最初のカード（index 0）を中央正面に配置するため、回転0度から開始
     const anglePerItem = 360 / IDOLS.length;
-    const [rotation, setRotation] = useState(anglePerItem / 2);
+    const [rotation, setRotation] = useState(0);
     useEffect(() => {
         const interval = setInterval(() => setRotation(prev => prev - anglePerItem), 5000);
         return () => clearInterval(interval);
