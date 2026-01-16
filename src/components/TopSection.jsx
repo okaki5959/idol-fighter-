@@ -8,7 +8,11 @@ export const TopSection = ({ onSelectIdol }) => {
         const interval = setInterval(() => setRotation(prev => prev - (360 / IDOLS.length)), 5000);
         return () => clearInterval(interval);
     }, []);
-    const radius = 650;
+    // レスポンシブ対応: モバイルでは半径とカードサイズを縮小
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const radius = isMobile ? 300 : 650;
+    const cardWidth = isMobile ? 200 : 400;
+    const cardHeight = isMobile ? 325 : 650;
     const anglePerItem = 360 / IDOLS.length;
     const beams = useMemo(() => Array.from({ length: 60 }).map((_, i) => ({
         id: i, angle: Math.random() * 360, delay: Math.random() * 2, duration: Math.random() * 0.4 + 0.3, width: Math.random() * 3 + 2, length: Math.random() * 50 + 50,
@@ -33,7 +37,7 @@ export const TopSection = ({ onSelectIdol }) => {
             <div className="relative w-full h-full flex items-center justify-center z-10" style={{ transformStyle: 'preserve-3d', transform: `rotateZ(-15deg) rotateY(0deg)` }}>
                 <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
                     {IDOLS.map((idol, i) => (
-                        <div key={idol.id} className="absolute top-1/2 left-1/2 cursor-pointer" onClick={() => onSelectIdol(i)} style={{ width: '400px', height: '650px', transform: `rotateY(${i * anglePerItem}deg) translateZ(${radius}px) translate(-50%, -50%)`, transformStyle: 'preserve-3d' }}>
+                        <div key={idol.id} className="absolute top-1/2 left-1/2 cursor-pointer" onClick={() => onSelectIdol(i)} style={{ width: `${cardWidth}px`, height: `${cardHeight}px`, transform: `rotateY(${i * anglePerItem}deg) translateZ(${radius}px) translate(-50%, -50%)`, transformStyle: 'preserve-3d' }}>
                             <div className="relative w-full h-full bg-white/10 backdrop-blur-md rounded-2xl border border-white/40 overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.2)] group hover:scale-110 hover:shadow-[0_0_80px_rgba(255,255,255,0.9)] hover:border-white transition-all duration-300">
                                 <div className={`absolute inset-0 bg-gradient-to-br ${idol.color} opacity-30 group-hover:opacity-60 transition-opacity`}></div>
                                 <img src={idol.image} alt={idol.name} className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity" />
@@ -49,9 +53,9 @@ export const TopSection = ({ onSelectIdol }) => {
                     ))}
                 </div>
             </div>
-            <div className="absolute z-20 text-center px-4 pointer-events-none">
-                <h1 className="text-6xl md:text-9xl font-black italic tracking-tighter mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-300 to-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] animate-pulse">IDOL<span className="text-yellow-400">FIGHTER</span></h1>
-                <p className="text-sm md:text-lg font-bold bg-black/60 backdrop-blur-md py-2 px-8 rounded-full inline-block border border-white/50 text-white shadow-[0_0_20px_rgba(0,0,0,0.5)]">輝きを競え。ステージという名の戦場で。</p>
+            <div className="absolute z-20 text-center px-4 pointer-events-none max-w-full">
+                <h1 className="text-4xl sm:text-6xl md:text-9xl font-black italic tracking-tighter mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-300 to-white drop-shadow-[0_0_30px_rgba(255,255,255,0.8)] animate-pulse break-words">IDOL<span className="text-yellow-400">FIGHTER</span></h1>
+                <p className="text-xs sm:text-sm md:text-lg font-bold bg-black/60 backdrop-blur-md py-2 px-4 sm:px-8 rounded-full inline-block border border-white/50 text-white shadow-[0_0_20px_rgba(0,0,0,0.5)]">輝きを競え。ステージという名の戦場で。</p>
             </div>
             <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-20">
                 <span className="text-xs font-bold tracking-widest animate-pulse text-white shadow-black drop-shadow-md">SCROLL</span>

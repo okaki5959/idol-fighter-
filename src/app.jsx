@@ -38,7 +38,7 @@ const IdolWebsite = () => {
     };
 
     return (
-        <div className="w-full font-sans bg-slate-50">
+        <div className="w-full font-sans bg-slate-50 overflow-x-hidden">
             {!loaded && <LoadingScreen onLoaded={handleLoaded} />}
             {loaded && (
                 <>
