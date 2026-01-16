@@ -6,10 +6,24 @@ export const TopSection = ({ onSelectIdol }) => {
     // 最初のカード（index 0）を中央正面に配置するため、回転0度から開始
     const anglePerItem = 360 / IDOLS.length;
     const [rotation, setRotation] = useState(0);
+    const [targetRotation, setTargetRotation] = useState(0);
+
     useEffect(() => {
-        const interval = setInterval(() => setRotation(prev => prev - anglePerItem), 5000);
+        const interval = setInterval(() => {
+            setTargetRotation(prev => {
+                const newRotation = prev - anglePerItem;
+                // 回転を anglePerItem の倍数に正規化（常にカードの中心が正面に来るように）
+                const normalized = Math.round(newRotation / anglePerItem) * anglePerItem;
+                return normalized;
+            });
+        }, 5000);
         return () => clearInterval(interval);
     }, [anglePerItem]);
+
+    // スムーズにターゲット回転角度に移行
+    useEffect(() => {
+        setRotation(targetRotation);
+    }, [targetRotation]);
     // レスポンシブ対応: モバイルでは半径とカードサイズを調整
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
     // モバイルはカードを最大限に大きく、画面いっぱいに表示
@@ -40,8 +54,11 @@ export const TopSection = ({ onSelectIdol }) => {
             <div className="absolute inset-0 bg-white/10 animate-flash-hard pointer-events-none z-0"></div>
             <div className="relative w-full h-full flex items-center justify-center z-10" style={{ transformStyle: 'preserve-3d', transform: carouselRotation }}>
                 <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
-                    {IDOLS.map((idol, i) => (
-                        <div key={idol.id} className="absolute top-1/2 left-1/2 cursor-pointer" onClick={() => onSelectIdol(i)} style={{ width: `${cardWidth}px`, height: `${cardHeight}px`, transform: `rotateY(${i * anglePerItem}deg) translateZ(${radius}px) translate(-50%, -50%)`, transformStyle: 'preserve-3d' }}>
+                    {IDOLS.map((idol, i) => {
+                        // カード配置角度を計算（常に正面にカードが来るように調整）
+                        const cardAngle = i * anglePerItem;
+                        return (
+                        <div key={idol.id} className="absolute top-1/2 left-1/2 cursor-pointer" onClick={() => onSelectIdol(i)} style={{ width: `${cardWidth}px`, height: `${cardHeight}px`, transform: `rotateY(${cardAngle}deg) translateZ(${radius}px) translate(-50%, -50%)`, transformStyle: 'preserve-3d' }}>
                             {/* カード表面 */}
                             <div className="absolute w-full h-full bg-white/10 backdrop-blur-md rounded-2xl border border-white/40 overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.2)] group hover:scale-110 hover:shadow-[0_0_80px_rgba(255,255,255,0.9)] hover:border-white transition-all duration-300" style={{ backfaceVisibility: 'hidden' }}>
                                 <div className={`absolute inset-0 bg-gradient-to-br ${idol.color} opacity-30 group-hover:opacity-60 transition-opacity`}></div>
@@ -77,7 +94,8 @@ export const TopSection = ({ onSelectIdol }) => {
                                 <div className="absolute bottom-4 right-4 text-white/30 text-xs font-bold">★</div>
                             </div>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
             <div className="absolute z-20 text-center px-4 pointer-events-none max-w-full">
