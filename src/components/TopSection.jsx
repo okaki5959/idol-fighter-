@@ -38,7 +38,8 @@ export const TopSection = ({ onSelectIdol }) => {
                 <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
                     {IDOLS.map((idol, i) => (
                         <div key={idol.id} className="absolute top-1/2 left-1/2 cursor-pointer" onClick={() => onSelectIdol(i)} style={{ width: `${cardWidth}px`, height: `${cardHeight}px`, transform: `rotateY(${i * anglePerItem}deg) translateZ(${radius}px) translate(-50%, -50%)`, transformStyle: 'preserve-3d' }}>
-                            <div className="relative w-full h-full bg-white/10 backdrop-blur-md rounded-2xl border border-white/40 overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.2)] group hover:scale-110 hover:shadow-[0_0_80px_rgba(255,255,255,0.9)] hover:border-white transition-all duration-300">
+                            {/* カード表面 */}
+                            <div className="absolute w-full h-full bg-white/10 backdrop-blur-md rounded-2xl border border-white/40 overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.2)] group hover:scale-110 hover:shadow-[0_0_80px_rgba(255,255,255,0.9)] hover:border-white transition-all duration-300" style={{ backfaceVisibility: 'hidden' }}>
                                 <div className={`absolute inset-0 bg-gradient-to-br ${idol.color} opacity-30 group-hover:opacity-60 transition-opacity`}></div>
                                 <img src={idol.image} alt={idol.name} className="w-full h-full object-cover object-top opacity-90 group-hover:opacity-100 transition-opacity" />
                                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -48,6 +49,28 @@ export const TopSection = ({ onSelectIdol }) => {
                                     <div className="text-xl font-black italic text-white drop-shadow-md">{idol.name}</div>
                                     <div className="text-xs text-white/80">{idol.catchphrase}</div>
                                 </div>
+                            </div>
+                            {/* カード裏面（トランプ風デザイン） */}
+                            <div className="absolute w-full h-full rounded-2xl overflow-hidden shadow-[0_0_30px_rgba(255,255,255,0.2)] border-4 border-white/60" style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}>
+                                <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"></div>
+                                <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,255,255,0.03)_10px,rgba(255,255,255,0.03)_20px)]"></div>
+                                <div className="absolute inset-4 border-4 border-white/20 rounded-xl"></div>
+                                <div className="absolute inset-8 border-2 border-white/10 rounded-lg"></div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="text-center">
+                                        <div className="text-6xl font-black italic text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 mb-2 tracking-tighter drop-shadow-[0_0_20px_rgba(255,255,255,0.5)]">IDOL</div>
+                                        <div className="text-5xl font-black italic text-yellow-400 tracking-widest drop-shadow-[0_0_20px_rgba(255,255,0,0.5)]">FIGHTER</div>
+                                        <div className="mt-4 flex justify-center gap-2">
+                                            <div className="w-3 h-3 bg-pink-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(236,72,153,0.8)]"></div>
+                                            <div className="w-3 h-3 bg-purple-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(192,132,252,0.8)]" style={{ animationDelay: '0.2s' }}></div>
+                                            <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(34,211,238,0.8)]" style={{ animationDelay: '0.4s' }}></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="absolute top-4 left-4 text-white/30 text-xs font-bold">★</div>
+                                <div className="absolute top-4 right-4 text-white/30 text-xs font-bold">★</div>
+                                <div className="absolute bottom-4 left-4 text-white/30 text-xs font-bold">★</div>
+                                <div className="absolute bottom-4 right-4 text-white/30 text-xs font-bold">★</div>
                             </div>
                         </div>
                     ))}
