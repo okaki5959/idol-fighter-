@@ -3,19 +3,16 @@ import { ArrowDown } from 'lucide-react';
 import { IDOLS } from '../data';
 
 export const TopSection = ({ onSelectIdol }) => {
-    // 最初のカード（index 0）を中央正面に配置するため、回転0度から開始
+    // 最初のカード（index 0）を中央正面に配置
     const anglePerItem = 360 / IDOLS.length;
-    const [rotation, setRotation] = useState(0);
-    const [targetRotation, setTargetRotation] = useState(0);
+    // レオを正面に配置
+    const initialRotation = 0;
+    const [rotation, setRotation] = useState(initialRotation);
+    const [targetRotation, setTargetRotation] = useState(initialRotation);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setTargetRotation(prev => {
-                const newRotation = prev - anglePerItem;
-                // 回転を anglePerItem の倍数に正規化（常にカードの中心が正面に来るように）
-                const normalized = Math.round(newRotation / anglePerItem) * anglePerItem;
-                return normalized;
-            });
+            setTargetRotation(prev => prev - anglePerItem);
         }, 5000);
         return () => clearInterval(interval);
     }, [anglePerItem]);
@@ -26,12 +23,13 @@ export const TopSection = ({ onSelectIdol }) => {
     }, [targetRotation]);
     // レスポンシブ対応: モバイルでは半径とカードサイズを調整
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    // モバイルはカードを最大限に大きく、画面いっぱいに表示
-    const radius = isMobile ? 700 : 650;
-    const cardWidth = isMobile ? 340 : 400;
-    const cardHeight = isMobile ? 580 : 650;
-    // モバイルでも傾斜を維持、デスクトップでは斜めに
-    const carouselRotation = isMobile ? 'rotateZ(-12deg) rotateY(0deg)' : 'rotateZ(-15deg) rotateY(0deg)';
+    // モバイルはカードを最大限に大きく、インパクト重視
+    const radius = isMobile ? 750 : 650;
+    const cardWidth = isMobile ? 360 : 400;
+    const cardHeight = isMobile ? 600 : 650;
+    // 傾斜を戻し、Y軸補正を追加してレオを中央に配置
+    const tiltCompensation = isMobile ? 3 : 5;
+    const carouselRotation = isMobile ? `rotateZ(-12deg) rotateY(${tiltCompensation}deg)` : `rotateZ(-15deg) rotateY(${tiltCompensation}deg)`;
     const beams = useMemo(() => Array.from({ length: 60 }).map((_, i) => ({
         id: i, angle: Math.random() * 360, delay: Math.random() * 2, duration: Math.random() * 0.4 + 0.3, width: Math.random() * 3 + 2, length: Math.random() * 50 + 50,
         color: Math.random() > 0.6 ? '#ffffff' : Math.random() > 0.4 ? '#ff00ff' : Math.random() > 0.2 ? '#00ffff' : '#ffff00'
@@ -53,9 +51,10 @@ export const TopSection = ({ onSelectIdol }) => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,0,255,0.2) 40%, transparent 70%) blur-3xl animate-strobe pointer-events-none mix-blend-screen"></div>
             <div className="absolute inset-0 bg-white/10 animate-flash-hard pointer-events-none z-0"></div>
             <div className="relative w-full h-full flex items-center justify-center z-10" style={{ transformStyle: 'preserve-3d', transform: carouselRotation }}>
-                <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation + (anglePerItem / 2)}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
+                <div className="absolute w-0 h-0" style={{ transformStyle: 'preserve-3d', transform: `rotateY(${rotation}deg)`, transition: 'transform 1.5s cubic-bezier(0.25, 1, 0.5, 1)' }}>
                     {IDOLS.map((idol, i) => {
-                        // カード配置角度を計算（常に正面にカードが来るように調整）
+                        // カード配置角度を計算
+                        // レオ（index 0）を0°に配置
                         const cardAngle = i * anglePerItem;
                         return (
                         <div key={idol.id} className="absolute top-1/2 left-1/2 cursor-pointer" onClick={() => onSelectIdol(i)} style={{ width: `${cardWidth}px`, height: `${cardHeight}px`, transform: `rotateY(${cardAngle}deg) translateZ(${radius}px) translate(-50%, -50%)`, transformStyle: 'preserve-3d' }}>

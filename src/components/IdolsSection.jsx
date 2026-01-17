@@ -31,15 +31,15 @@ export const IdolsSection = ({ currentIndex, setCurrentIndex }) => {
                     <div className="text-3xl md:text-5xl font-black text-white italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.2)] shine-effect inline-block px-4 relative">IDOL SELECTION</div>
                 </RevealOnScroll>
             </div>
-            <div className="flex flex-col md:flex-row items-center justify-center h-full w-full px-4 pb-24 md:pb-0 pt-20 relative z-10">
+            <div className="flex flex-col md:flex-row items-center justify-center h-full w-full px-4 pb-32 md:pb-0 pt-20 relative z-10">
                 <button onClick={() => changeIndex((currentIndex - 1 + IDOLS.length) % IDOLS.length)} className="absolute left-2 top-1/2 -translate-y-1/2 md:static md:translate-y-0 z-30 group p-2 md:mr-8 hover:scale-110 transition-transform"><div className="bg-white/40 backdrop-blur-md rounded-full p-3 md:p-4 border-4 border-white shadow-xl group-hover:bg-white/60 group-active:scale-95 transition-all"><ChevronLeft size={32} className="text-white drop-shadow-md" /></div></button>
-                <div className="relative flex flex-col md:flex-row items-center w-full max-w-6xl mx-auto h-[70vh] md:h-[80vh]">
+                <div className="relative flex flex-col md:flex-row items-center w-full max-w-6xl mx-auto min-h-[70vh] md:h-[80vh]">
                     <div className="relative flex-1 h-full flex items-center justify-center order-1 md:order-2 z-20 w-full">
                         <RevealOnScroll animation="zoom-in" delay={300} className="w-full h-full flex items-center justify-center">
                             <div key={`aura-${currentIdol.id}`} className={`absolute w-[280px] h-[420px] md:w-[500px] md:h-[750px] rounded-[50%] opacity-40 blur-3xl transition-all duration-500 animate-pulse bg-white/40`}></div>
                             <div className="absolute bottom-[10%] w-[200px] h-[40px] md:w-[400px] md:h-[60px] bg-black/20 blur-xl rounded-[50%] transform scale-x-150"></div>
                             <div key={`char-${currentIdol.id}`} className={`relative transition-transform duration-300 w-full h-full flex items-end justify-center pb-8 md:pb-12 ${isAnimating ? 'char-enter-right' : 'char-enter-right'}`}>
-                                <img src={currentIdol.image} alt={currentIdol.name} className="h-[50vh] md:h-[75vh] max-h-screen drop-shadow-2xl object-contain object-bottom transform transition-transform hover:scale-105 duration-500" style={{ filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.6))' }} />
+                                <img src={currentIdol.image} alt={currentIdol.name} className="h-[35vh] md:h-[75vh] max-h-screen drop-shadow-2xl object-contain object-bottom transform transition-transform hover:scale-105 duration-500" style={{ filter: 'drop-shadow(0 0 15px rgba(255,255,255,0.6))' }} />
                                 <div className="absolute top-1/4 right-10 md:right-20 animate-bounce delay-700"><Sparkles className="text-white w-8 h-8 drop-shadow-lg" /></div>
                                 <div className="absolute bottom-1/3 left-10 md:left-20 animate-bounce delay-300"><Star className="text-yellow-300 w-10 h-10 drop-shadow-lg fill-yellow-300" /></div>
                             </div>
