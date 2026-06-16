@@ -11,7 +11,6 @@ import { MovieSection } from './components/MovieSection';
 import { NewsSection } from './components/NewsSection';
 import { Footer } from './components/Footer';
 import { BackgroundMusic } from './components/BackgroundMusic';
-import Book from './components/Book';
 
 const IdolWebsite = () => {
     const [loaded, setLoaded] = useState(false);
@@ -48,7 +47,6 @@ const IdolWebsite = () => {
                     <main className="animate-fade-in">
                         <TopSection onSelectIdol={handleIdolSelect} />
                         <IdolsSection currentIndex={currentIdolIndex} setCurrentIndex={setCurrentIdolIndex} />
-                        <Book />
                         <StorySection characters={characterAssignments.story} />
                         <SystemSection characters={characterAssignments.system} />
                         <MovieSection characters={characterAssignments.movie} />
